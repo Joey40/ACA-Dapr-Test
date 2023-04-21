@@ -20,5 +20,5 @@ resource "azurerm_container_app_environment" "acadapr" {
   name                       = "${var.projectName}-ACE"
   location                   = azurerm_resource_group.baseRG.location
   resource_group_name        = azurerm_resource_group.baseRG.name
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.nicegui.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.acadapr.id
 }
