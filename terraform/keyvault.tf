@@ -25,20 +25,3 @@ resource "azurerm_key_vault" "acadapr" {
   }
 }
 
-resource "azurerm_key_vault_secret" "aca-url" {
-  name         = "aca-url"
-  value        = azurerm_container_registry.acadapr.login_server
-  key_vault_id = azurerm_key_vault.acadapr.id
-}
-
-resource "azurerm_key_vault_secret" "aca-user" {
-  name         = "aca-user"
-  value        = azurerm_container_registry.acadapr.admin_username
-  key_vault_id = azurerm_key_vault.acadapr.id
-}
-
-resource "azurerm_key_vault_secret" "aca-pass" {
-  name         = "aca-pass"
-  value        = azurerm_container_registry.acadapr.admin_password
-  key_vault_id = azurerm_key_vault.acadapr.id
-}
