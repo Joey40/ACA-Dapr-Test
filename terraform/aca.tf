@@ -26,7 +26,7 @@ resource "azurerm_container_app_environment" "acadapr" {
 resource "random_uuid" "acadapr" {
 }
 
-resource "azurerm_container_app_environment" "acadapr" {
+resource "azurerm_container_app" "acadapr" {
   name                         = "acadapr-aca"
   container_app_environment_id = azurerm_container_app_environment.acadapr.id
   resource_group_name          = azurerm_resource_group.baseRG.name
