@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.53.0"
     }
+    random = {
+      source = "hashicorp/random"
+      version = "3.5.1"
+    }
   }
   backend "azurerm" {
     resource_group_name  = "state-and-backend"
@@ -16,4 +20,6 @@ terraform {
 
 provider "azurerm" {
   features {}
+}
+provider "random" {
 }
