@@ -39,7 +39,9 @@ resource "azurerm_container_app" "acadapr" {
   ingress {
     external_enabled = true
     target_port      = 8000
-
+    traffic_weight {
+      percentage = 100
+    }
   }
 
   template {
