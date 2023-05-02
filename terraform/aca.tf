@@ -24,7 +24,7 @@ resource "azurerm_container_app_environment" "acadapr" {
 }
 
 resource "azurerm_container_app_environment_dapr_component" "acadapr" {
-  name                         = "${var.projectName}-DAPR"
+  name                         = "${var.projectName}-dapr"
   container_app_environment_id = azurerm_container_app_environment.acadapr.id
   component_type               = "state.postgresql"
   version                      = "v1"
