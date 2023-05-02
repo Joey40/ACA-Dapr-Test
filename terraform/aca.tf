@@ -1,6 +1,6 @@
 
 resource "azurerm_log_analytics_workspace" "acadapr" {
-  name                = "${var.projectName}-LAW"
+  name                = "${var.projectName}-law"
   location            = azurerm_resource_group.baseRG.location
   resource_group_name = azurerm_resource_group.baseRG.name
   sku                 = "PerGB2018"
@@ -17,14 +17,43 @@ resource "azurerm_container_registry" "acadapr" {
 }
 
 resource "azurerm_container_app_environment" "acadapr" {
-  name                       = "${var.projectName}-ACE"
+  name                       = "${var.projectName}-ace"
   location                   = azurerm_resource_group.baseRG.location
   resource_group_name        = azurerm_resource_group.baseRG.name
   log_analytics_workspace_id = azurerm_log_analytics_workspace.acadapr.id
 }
 
+resource "random_uuid" "acadapr" {
+}
+
+resource "azurerm_container_app_environment" "acadapr" {
+  name                         = "acadapr-aca"
+  container_app_environment_id = azurerm_container_app_environment.acadapr.id
+  resource_group_name          = azurerm_resource_group.baseRG.name
+  revision_mode                = "Single"
+
+  dapr {
+    app_id = random_uuid.acadapr.result
+  }
+
+  ingress {
+    external_enabled = true
+    target_port      = 8000
+
+  }
+
+  template {
+    container {
+      name   = "acadapr-aca"
+      image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
+      cpu    = 0.25
+      memory = "0.5Gi"
+    }
+  }
+}
+
 resource "azurerm_container_app_environment_dapr_component" "acadapr" {
-  name                         = "${var.projectName}-dapr"
+  name                         = "${var.projectName}-state"
   container_app_environment_id = azurerm_container_app_environment.acadapr.id
   component_type               = "state.postgresql"
   version                      = "v1"
@@ -38,6 +67,8 @@ resource "azurerm_container_app_environment_dapr_component" "acadapr" {
     name = "connstring"
     secret_name = "connstring"
   }
+
+  scopes = [random_uuid.acadapr.result]
 }
 
 resource "azurerm_key_vault_secret" "aca-url" {
